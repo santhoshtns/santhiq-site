@@ -1,0 +1,16 @@
+:root { --page: #e9eeec; --card: #ffffff; --ink: #17221d; --ink2: #4a5853; --line: #dbe2df; --brand: #0b5d57; }
+@media (prefers-color-scheme: dark) {
+  :root { --page: #0b0f0d; --card: #1a2220; --ink: #eef3f1; --ink2: #b9c5c0; --line: #2a3431; --brand: #5fb8ae; }
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--page); color: var(--ink);
+  font: 17px/1.55 "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+main { max-width: 42rem; margin: 0 auto; padding: 2.5rem 1rem 4rem; }
+h1 { font-size: 2rem; line-height: 1.2; margin: 0 0 .5rem; }
+h2 { font-size: 1.2rem; margin: 2rem 0 .5rem; }
+p, li { color: var(--ink2); }
+a { color: var(--brand); }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 1.25rem 1.5rem; }
+footer { margin-top: 3rem; font-size: .9rem; color: var(--ink2); }
