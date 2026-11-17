@@ -109,10 +109,73 @@ table.accounts th:nth-child(5) { width: 17%; } table.accounts th:nth-child(6) { 
 table.accounts th:nth-child(7) { width: 9%; } table.accounts th:nth-child(8) { width: 13%; }
 table.tx td:first-child { white-space: nowrap; }
 .field input[type=search] { max-width: 320px; }
-@media (max-width: 800px) { .shell { grid-template-columns: 1fr; } .side-group { display: none; } table.accounts { table-layout: auto; } }
+
 /* Invoices (owner, 2026-11-17). */
 .edit-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px 12px; margin: 8px 0; }
 .edit-grid textarea, td input, .edit-grid input { font: inherit; font-size: 0.92rem; padding: 5px 8px; border: 1px solid var(--line); border-radius: 8px; width: 100%; }
 td input.wide, .edit-grid input.wide { min-width: 260px; }
 .draft { border-top: 1px solid var(--line); padding-top: 8px; margin-top: 8px; }
 .edit-grid { align-items: start; }
+/* Owner, 2026-11-17 (UI review): the design system. Quiet neutral surfaces, white cards, colour only for meaning:
+   indigo for the current choice and the main action, teal good, amber needing action, red overdue or wrong. System
+   fonts (WEB-05: nothing loaded from elsewhere), tabular figures, an 8 px rhythm. */
+:root { --ink: #0f172a; --quiet: #64748b; --line: #e2e8f0; --bg: #f8fafc; --card: #ffffff; --accent: #4f46e5;
+  --accent-soft: #eef2ff; --good: #0d9488; --warn: #b45309; --warn-soft: #fef3c7; --bad: #dc2626; --bad-soft: #fee2e2;
+  --info-soft: #f1f5f9; }
+body { font-variant-numeric: tabular-nums; }
+section, details.card { border-radius: 14px; border-color: var(--line); padding: 16px 20px; margin: 16px 0; box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04); }
+h2 { font-size: 1.05rem; letter-spacing: -0.01em; }
+button { border-radius: 8px; border-color: var(--line); color: var(--ink); }
+button:hover:not(:disabled) { background: var(--info-soft); }
+button.primary, button.primary:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+button.danger { color: var(--bad); border-color: #fecaca; }
+button.tab.on { background: var(--accent-soft); border-color: transparent; color: var(--accent); font-weight: 600; }
+.icon { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+
+/* Header: the amounts eye and the read-only or editing mode. */
+header .eye { display: inline-flex; align-items: center; gap: 6px; }
+.mode { display: inline-flex; border: 1px solid var(--line); border-radius: 10px; padding: 2px; background: var(--card); }
+.mode button { border: 0; padding: 4px 12px; border-radius: 8px; background: transparent; }
+.mode button.on { background: var(--accent-soft); color: var(--accent); font-weight: 600; }
+.editing { background: var(--warn-soft); border-color: #fcd34d; color: #78350f; }
+
+/* Side bar: icon and label, foldable groups, Life and Settings at the bottom. */
+.side { min-height: calc(100vh - 170px); gap: 2px; }
+.side-box { display: flex; flex-direction: column; gap: 2px; margin-bottom: 10px; }
+.side-box.bottom { margin-top: auto; padding-top: 10px; border-top: 1px solid var(--line); }
+.side button.tab { display: flex; align-items: center; gap: 10px; border: 0; background: transparent; padding: 7px 10px; }
+.side button.tab:hover { background: var(--info-soft); }
+.side button.tab.on { background: var(--accent-soft); }
+button.side-group { border: 0; background: transparent; text-align: left; font-size: 0.72rem; text-transform: uppercase;
+  letter-spacing: 0.06em; color: var(--quiet); padding: 4px 6px; margin: 0; }
+
+/* Book tabs carry their kind. */
+button.tab.book { display: inline-flex; align-items: baseline; gap: 6px; }
+.book-kind { font-size: 0.72rem; color: var(--quiet); }
+button.tab.on .book-kind { color: var(--accent); }
+
+/* Overview: four figures per region, then the forecast. */
+.kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+.kpi { display: grid; gap: 4px; border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; background: var(--card); }
+.kpi-label { color: var(--quiet); font-size: 0.85rem; }
+.kpi-value { font-size: 1.45rem; font-weight: 650; letter-spacing: -0.01em; }
+.kpi-value.none { font-size: 1rem; color: var(--quiet); font-weight: 500; }
+.kpi small { color: var(--quiet); font-size: 0.8rem; line-height: 1.35; }
+.kpi.good .kpi-value { color: var(--good); }
+.kpi.warn .kpi-value { color: var(--warn); }
+.kpi.bad .kpi-value { color: var(--bad); }
+.kpi.bad { border-color: #fecaca; }
+
+/* Financial health: the level first, in words and colour. */
+.health-group { border: 1px solid var(--line); border-radius: 10px; padding: 8px 12px; margin: 8px 0; }
+.health-group summary { display: flex; gap: 10px; align-items: center; font-weight: 500; }
+.health-group > p, .health-group > ul { margin: 6px 0; }
+.badge { font-size: 0.72rem; font-weight: 600; padding: 2px 8px; border-radius: 999px; white-space: nowrap; }
+.badge.critical { background: var(--bad-soft); color: #b91c1c; }
+.badge.action { background: var(--warn-soft); color: #92400e; }
+.badge.info { background: var(--info-soft); color: #475569; }
+.health-group.critical { border-color: #fecaca; }
+details.more > summary { color: var(--accent); font-weight: 500; margin: 6px 0; }
+details.month-detail h3 { margin-top: 16px; }
+tr.attention td { color: var(--bad); }
+@media (max-width: 800px) { .shell { grid-template-columns: 1fr; } .side { min-height: 0; flex-direction: row; flex-wrap: wrap; } .side-box.bottom { margin-top: 0; border-top: 0; } button.side-group { display: none; } table.accounts { table-layout: auto; } }
