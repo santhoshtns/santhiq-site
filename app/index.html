@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<!-- WEB-05: only this page's own files, Google's sign-in check and the Drive API. The server sends the same policy
+     as a header, with frame-ancestors. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; connect-src 'self' https://www.googleapis.com https://openidconnect.googleapis.com; img-src 'self'; form-action 'none'; base-uri 'none'">
+<title>SanthIQ</title>
+<link rel="stylesheet" href="styles.css" integrity="sha384-bQaUvQaA7QqNwoD6RctVDGyJS2kGmWmPL7eggd6mHBADttipRJoSKi3FacFJHm2u">
+</head>
+<body>
+<main id="app">Loading…</main>
+<script src="main.dart.js" integrity="sha384-p52d+7RHQo+TFaYLWBez3MCQFOwCoEeCRvhoucF2A5kq94gHv+Re10AfCsQPShrn" defer></script>
+</body>
+</html>
