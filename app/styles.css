@@ -11,7 +11,7 @@ section { background: var(--card); border: 1px solid var(--line); border-radius:
 nav { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 14px 0 0; }
 button { font: inherit; padding: 6px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--card); cursor: pointer; }
 button:disabled { opacity: 0.5; cursor: default; }
-button.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+button.primary { background: var(--accent-fill); border-color: var(--accent-fill); color: var(--on-accent); }
 button.tab.on { border-color: var(--accent); color: var(--accent); font-weight: 600; }
 button.quiet-button { color: var(--quiet); }
 .row { display: grid; grid-template-columns: 1fr auto; gap: 2px 12px; padding: 6px 0; border-bottom: 1px solid var(--line); }
@@ -41,7 +41,7 @@ th, td { padding: 6px 8px; border-bottom: 1px solid var(--line); text-align: lef
 th { position: sticky; top: 0; background: var(--card); color: var(--quiet); font-weight: 600; }
 td.amount, th.amount { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
 tr.click { cursor: pointer; }
-tr.click:hover, tr.open { background: #eef2fc; }
+tr.click:hover, tr.open { background: var(--hover); }
 td.inner { background: var(--bg); padding: 8px 16px 12px; }
 @media (max-width: 800px) { .shell { grid-template-columns: 1fr; } .side { flex-direction: row; flex-wrap: wrap; position: static; } }
 .filters { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: end; margin-bottom: 8px; }
@@ -91,10 +91,10 @@ nav.sub .gap { width: 16px; }
 button:disabled { opacity: 0.55; }
 button.step { min-width: 36px; }
 .editing { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; margin: 10px 0 0; padding: 8px 14px; border-radius: 8px; background: #fff4e5; border: 1px solid #f0c48a; color: #6b3d00; font-weight: 600; }
-section.attention { border-color: #e7c3b5; }
+section.attention { border-color: var(--warn-line); }
 section.attention h2 { color: var(--warn); }
 .row.click { cursor: pointer; }
-.row.click:hover { background: #eef2fc; }
+.row.click:hover { background: var(--hover); }
 tr.attention td:first-child { color: var(--warn); font-weight: 600; }
 .small { font-size: 0.85rem; }
 .total-line { font-weight: 600; margin: 2px 0 6px; }
@@ -121,14 +121,15 @@ td input.wide, .edit-grid input.wide { min-width: 260px; }
    fonts (WEB-05: nothing loaded from elsewhere), tabular figures, an 8 px rhythm. */
 :root { --ink: #0f172a; --quiet: #64748b; --line: #e2e8f0; --bg: #f8fafc; --card: #ffffff; --accent: #4f46e5;
   --accent-soft: #eef2ff; --good: #0d9488; --warn: #b45309; --warn-soft: #fef3c7; --bad: #dc2626; --bad-soft: #fee2e2;
-  --info-soft: #f1f5f9; }
+  --info-soft: #f1f5f9; --hover: #eef2ff; --accent-fill: #4f46e5; --on-accent: #ffffff; --warn-line: #fcd34d;
+  --warn-ink: #78350f; --bad-line: #fecaca; --bad-ink: #b91c1c; --shadow: 0 1px 2px rgba(15, 23, 42, 0.04); }
 body { font-variant-numeric: tabular-nums; }
-section, details.card { border-radius: 14px; border-color: var(--line); padding: 16px 20px; margin: 16px 0; box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04); }
+section, details.card { border-radius: 14px; border-color: var(--line); padding: 16px 20px; margin: 16px 0; box-shadow: var(--shadow); }
 h2 { font-size: 1.05rem; letter-spacing: -0.01em; }
 button { border-radius: 8px; border-color: var(--line); color: var(--ink); }
 button:hover:not(:disabled) { background: var(--info-soft); }
-button.primary, button.primary:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
-button.danger { color: var(--bad); border-color: #fecaca; }
+button.primary, button.primary:hover { background: var(--accent-fill); border-color: var(--accent-fill); color: var(--on-accent); }
+button.danger { color: var(--bad); border-color: var(--bad-line); }
 button.tab.on { background: var(--accent-soft); border-color: transparent; color: var(--accent); font-weight: 600; }
 .icon { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex: none; }
 
@@ -137,7 +138,7 @@ header .eye { display: inline-flex; align-items: center; gap: 6px; }
 .mode { display: inline-flex; border: 1px solid var(--line); border-radius: 10px; padding: 2px; background: var(--card); }
 .mode button { border: 0; padding: 4px 12px; border-radius: 8px; background: transparent; }
 .mode button.on { background: var(--accent-soft); color: var(--accent); font-weight: 600; }
-.editing { background: var(--warn-soft); border-color: #fcd34d; color: #78350f; }
+.editing { background: var(--warn-soft); border-color: var(--warn-line); color: var(--warn-ink); }
 
 /* Side bar: icon and label, foldable groups, Life and Settings at the bottom. */
 .side { min-height: calc(100vh - 170px); gap: 2px; }
@@ -164,18 +165,43 @@ button.tab.on .book-kind { color: var(--accent); }
 .kpi.good .kpi-value { color: var(--good); }
 .kpi.warn .kpi-value { color: var(--warn); }
 .kpi.bad .kpi-value { color: var(--bad); }
-.kpi.bad { border-color: #fecaca; }
+.kpi.bad { border-color: var(--bad-line); }
 
 /* Financial health: the level first, in words and colour. */
 .health-group { border: 1px solid var(--line); border-radius: 10px; padding: 8px 12px; margin: 8px 0; }
 .health-group summary { display: flex; gap: 10px; align-items: center; font-weight: 500; }
 .health-group > p, .health-group > ul { margin: 6px 0; }
 .badge { font-size: 0.72rem; font-weight: 600; padding: 2px 8px; border-radius: 999px; white-space: nowrap; }
-.badge.critical { background: var(--bad-soft); color: #b91c1c; }
-.badge.action { background: var(--warn-soft); color: #92400e; }
-.badge.info { background: var(--info-soft); color: #475569; }
-.health-group.critical { border-color: #fecaca; }
+.badge.critical { background: var(--bad-soft); color: var(--bad-ink); }
+.badge.action { background: var(--warn-soft); color: var(--warn-ink); }
+.badge.info { background: var(--info-soft); color: var(--quiet); }
+.health-group.critical { border-color: var(--bad-line); }
 details.more > summary { color: var(--accent); font-weight: 500; margin: 6px 0; }
 details.month-detail h3 { margin-top: 16px; }
 tr.attention td { color: var(--bad); }
 @media (max-width: 800px) { .shell { grid-template-columns: 1fr; } .side { min-height: 0; flex-direction: row; flex-wrap: wrap; } .side-box.bottom { margin-top: 0; border-top: 0; } button.side-group { display: none; } table.accounts { table-layout: auto; } }
+
+/* Dark mode (owner, 2026-11-18): the same slate, indigo, teal, amber and red, stepped for a dark surface. It follows
+   the system unless the header's switch picks light or dark; chart slots are the reference palette's dark steps,
+   validated on the dark card. */
+.theme { display: inline-flex; align-items: center; gap: 6px; }
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    color-scheme: dark;
+    --ink: #e2e8f0; --quiet: #94a3b8; --line: #334155; --bg: #0b1120; --card: #172033; --accent: #a5b4fc;
+    --accent-soft: #272a5c; --good: #2dd4bf; --warn: #fbbf24; --warn-soft: #3b2a0a; --bad: #f87171; --bad-soft: #3f1515;
+    --info-soft: #1f2a3d; --hover: #222c45; --accent-fill: #6366f1; --on-accent: #ffffff; --warn-line: #92400e;
+    --warn-ink: #fde68a; --bad-line: #7f1d1d; --bad-ink: #fca5a5; --shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+    --series-1: #3987e5; --series-2: #d95926; --grid: #2a3548; --axis: #475569;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --ink: #e2e8f0; --quiet: #94a3b8; --line: #334155; --bg: #0b1120; --card: #172033; --accent: #a5b4fc;
+  --accent-soft: #272a5c; --good: #2dd4bf; --warn: #fbbf24; --warn-soft: #3b2a0a; --bad: #f87171; --bad-soft: #3f1515;
+  --info-soft: #1f2a3d; --hover: #222c45; --accent-fill: #6366f1; --on-accent: #ffffff; --warn-line: #92400e;
+  --warn-ink: #fde68a; --bad-line: #7f1d1d; --bad-ink: #fca5a5; --shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --series-1: #3987e5; --series-2: #d95926; --grid: #2a3548; --axis: #475569;
+}
+:root[data-theme="light"] { color-scheme: light; }
+input, select, textarea { color: var(--ink); background: var(--card); }
