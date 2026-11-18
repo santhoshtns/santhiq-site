@@ -102,11 +102,6 @@ tr.attention td:first-child { color: var(--warn); font-weight: 600; }
 h2.region { margin: 20px 0 0; }
 tr.aside td { color: var(--quiet); font-style: italic; }
 
-table.accounts { table-layout: fixed; }
-table.accounts th:nth-child(1) { width: 20%; } table.accounts th:nth-child(2) { width: 11%; }
-table.accounts th:nth-child(3) { width: 10%; } table.accounts th:nth-child(4) { width: 11%; }
-table.accounts th:nth-child(5) { width: 17%; } table.accounts th:nth-child(6) { width: 9%; }
-table.accounts th:nth-child(7) { width: 9%; } table.accounts th:nth-child(8) { width: 13%; }
 table.tx td:first-child { white-space: nowrap; }
 .field input[type=search] { max-width: 320px; }
 
@@ -181,6 +176,42 @@ details.month-detail h3 { margin-top: 16px; }
 tr.attention td { color: var(--bad); }
 @media (max-width: 800px) { .shell { grid-template-columns: 1fr; } .side { min-height: 0; flex-direction: row; flex-wrap: wrap; } .side-box.bottom { margin-top: 0; border-top: 0; } button.side-group { display: none; } table.accounts { table-layout: auto; } }
 
+/* Web review 2026-11-18: state as a small chip, never a whole row in colour. */
+.state { display: inline-block; margin-left: 8px; font-size: 0.75rem; font-weight: 600; padding: 1px 8px; border-radius: 999px; white-space: nowrap; vertical-align: 1px; }
+.state.warn { background: var(--warn-soft); color: var(--warn-ink); }
+.state.bad { background: var(--bad-soft); color: var(--bad-ink); }
+.state.good { background: color-mix(in srgb, var(--good) 14%, transparent); color: var(--good); }
+.state.info { background: var(--info-soft); color: var(--quiet); margin-left: 0; }
+table.accounts td:first-child { font-weight: 600; }
+table.accounts { table-layout: fixed; }
+table.accounts th:nth-child(1) { width: 30%; } table.accounts th:nth-child(2) { width: 14%; } table.accounts th:nth-child(3) { width: 14%; }
+
+.bar { position: relative; height: 6px; border-radius: 999px; background: var(--info-soft); margin-top: 6px; overflow: hidden; max-width: 260px; }
+.bar span { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 999px; }
+.bar .done { background: var(--good); }
+.bar .ahead { background: color-mix(in srgb, var(--good) 30%, transparent); }
+.bar.over .done { background: var(--bad); }
+.bar.over .ahead { background: color-mix(in srgb, var(--bad) 30%, transparent); }
+
+/* Web review 2026-11-18: a suggestion is outlined in the accent, so a screen of them is not all primary. */
+button.suggest { border-color: var(--accent); color: var(--accent); background: var(--card); font-weight: 600; }
+button.suggest:hover:not(:disabled) { background: var(--accent-soft); }
+
+/* Web review 2026-11-18: the spending heatmap, one hue light to strong; a button that reads as a link. */
+td.heat-1 { background: color-mix(in srgb, var(--series-1) 8%, transparent); }
+td.heat-2 { background: color-mix(in srgb, var(--series-1) 16%, transparent); }
+td.heat-3 { background: color-mix(in srgb, var(--series-1) 26%, transparent); }
+td.heat-4 { background: color-mix(in srgb, var(--series-1) 38%, transparent); }
+button.link { border: 0; background: none; padding: 0; color: var(--accent); font: inherit; text-decoration: underline; }
+
+/* Web review 2026-11-18: categories wear the phone's tile hues as a dot. */
+:root { --hue-green: #0b7448; --hue-blue: #1f66c9; --hue-purple: #6b3fc9; --hue-rose: #b8274f; --hue-amber: #a15e00; --hue-teal: #0e7570; }
+.cat { display: inline-flex; align-items: center; gap: 8px; }
+.dot { width: 10px; height: 10px; border-radius: 50%; flex: none; }
+.dot.hue-green { background: var(--hue-green); } .dot.hue-blue { background: var(--hue-blue); }
+.dot.hue-purple { background: var(--hue-purple); } .dot.hue-rose { background: var(--hue-rose); }
+.dot.hue-amber { background: var(--hue-amber); } .dot.hue-teal { background: var(--hue-teal); }
+
 /* Dark mode (owner, 2026-11-18): the same slate, indigo, teal, amber and red, stepped for a dark surface. It follows
    the system unless the header's switch picks light or dark; chart slots are the reference palette's dark steps,
    validated on the dark card. */
@@ -193,6 +224,7 @@ tr.attention td { color: var(--bad); }
     --info-soft: #1f2a3d; --hover: #222c45; --accent-fill: #6366f1; --on-accent: #ffffff; --warn-line: #92400e;
     --warn-ink: #fde68a; --bad-line: #7f1d1d; --bad-ink: #fca5a5; --shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
     --series-1: #3987e5; --series-2: #d95926; --grid: #2a3548; --axis: #475569;
+  --hue-green: #7fd3b2; --hue-blue: #8db8ec; --hue-purple: #c6a6f2; --hue-rose: #f2a0b6; --hue-amber: #f1c27a; --hue-teal: #7fd0d2;
   }
 }
 :root[data-theme="dark"] {
@@ -202,6 +234,7 @@ tr.attention td { color: var(--bad); }
   --info-soft: #1f2a3d; --hover: #222c45; --accent-fill: #6366f1; --on-accent: #ffffff; --warn-line: #92400e;
   --warn-ink: #fde68a; --bad-line: #7f1d1d; --bad-ink: #fca5a5; --shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
   --series-1: #3987e5; --series-2: #d95926; --grid: #2a3548; --axis: #475569;
+  --hue-green: #7fd3b2; --hue-blue: #8db8ec; --hue-purple: #c6a6f2; --hue-rose: #f2a0b6; --hue-amber: #f1c27a; --hue-teal: #7fd0d2;
 }
 :root[data-theme="light"] { color-scheme: light; }
 input, select, textarea { color: var(--ink); background: var(--card); }
